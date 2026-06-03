@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ServiceNow CSA Practice Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Berkeley+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #f5f2ed;
+    --surface: #ffffff;
+    --surface2: #faf9f7;
+    --border: #e6e1da;
+    --primary: #b45309;
+    --primary-light: #c2620a;
+    --accent: #166534;
+    --accent-soft: #fff7ed;
+    --text: #141311;
+    --muted: #6b6560;
+    --danger: #991b1b;
+    --success: #166534;
+    --warning: #b45309;
+    --star: #b45309;
+    --ok-bg: #f0fdf4;
+    --bad-bg: #fef2f2;
+    --rule: #ece8e1;
+    --shadow: 0 1px 2px rgba(20,19,17,.04), 0 6px 18px rgba(20,19,17,.06);
+    --shadow-hover: 0 4px 12px rgba(20,19,17,.08), 0 12px 30px rgba(20,19,17,.10);
+    --d1: #7c3aed; --d2: #2563eb; --d3: #0d9488;
+    --d4: #db2777; --d5: #b45309; --d6: #4338ca;
+    --mono: 'Berkeley Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh;
+    font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' opacity='.45'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.055 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-attachment: fixed;
+  }
+
+  /* NAV */
+  .nav { background: rgba(245,242,237,.82); backdrop-filter: blur(14px) saturate(140%); border-bottom: 1px solid var(--border); padding: 0 22px; display: flex; align-items: center; justify-content: space-between; height: 58px; position: sticky; top: 0; z-index: 100; }
+  .nav-brand { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-weight: 500; font-size: 14px; letter-spacing: -.2px; }
+  .nav-logo { width: 28px; height: 28px; background: var(--primary); color: #fff; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; font-family: var(--mono); }
+  .nav-actions { display: flex; gap: 8px; align-items: center; }
+
+  /* SCREEN SYSTEM */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* HOME */
+  .home { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+  .home-hero { text-align: center; margin-bottom: 36px; }
+  .home-hero h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.8px; margin-bottom: 12px; }
+  .home-hero h1 span { color: var(--primary); }
+  .home-hero p { color: var(--muted); font-size: 15px; max-width: 500px; margin: 0 auto; }
+  .best-line { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 14px; }
+  .best-line strong { color: var(--text); }
+
+  /* RESUME BANNER */
+  .resume-banner { display: none; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; background: linear-gradient(180deg, #fff, var(--accent-soft)); border: 1px solid #fed7aa; border-radius: 14px; padding: 16px 20px; margin-bottom: 28px; box-shadow: var(--shadow); }
+  .resume-banner.show { display: flex; }
+  .resume-banner .rb-text { font-size: 14px; }
+  .resume-banner .rb-text strong { color: var(--primary); }
+  .resume-banner .rb-actions { display: flex; gap: 8px; }
+
+  .domain-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .domain-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; cursor: pointer; transition: box-shadow .18s ease, border-color .18s ease, transform .12s ease; position: relative; overflow: hidden; box-shadow: var(--shadow); }
+  .domain-card:hover { border-color: #d8d3ca; box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+  .domain-card.selected { border-color: var(--primary); }
+  .domain-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; border-radius: 14px 0 0 14px; }
+  .domain-card.d1::before { background: var(--d1); }
+  .domain-card.d2::before { background: var(--d2); }
+  .domain-card.d3::before { background: var(--d3); }
+  .domain-card.d4::before { background: var(--d4); }
+  .domain-card.d5::before { background: var(--d5); }
+  .domain-card.d6::before { background: var(--d6); }
+  .domain-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .domain-badge { font-family: var(--mono); font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 999px; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); }
+  .domain-card h3 { font-size: 13px; font-weight: 600; margin-bottom: 4px; line-height: 1.4; }
+  .domain-card p { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .domain-check { width: 20px; height: 20px; border: 2px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .15s; }
+  .domain-card.selected .domain-check { background: var(--primary); border-color: var(--primary); }
+  .domain-check svg { display: none; }
+  .domain-card.selected .domain-check svg { display: block; }
+
+  .mode-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+  .mode-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 14px; padding: 18px 20px; cursor: pointer; transition: box-shadow .18s ease, border-color .18s ease; box-shadow: var(--shadow); }
+  .mode-card:hover { border-color: #d8d3ca; box-shadow: var(--shadow-hover); }
+  .mode-card.active { border-color: var(--primary); background: var(--accent-soft); }
+  .mode-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .mode-card p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .mode-icon { font-size: 17px; }
+
+  .quick-actions { margin-bottom: 28px; }
+  .drill-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border-radius: 12px; border: 1px dashed var(--primary); background: var(--accent-soft); color: var(--primary); font-family: var(--sans); font-size: 13px; font-weight: 600; cursor: pointer; transition: background .15s ease; }
+  .drill-btn:hover { background: #ffedd5; }
+
+  .start-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .start-info { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .start-info strong { color: var(--text); }
+
+  /* BUTTONS */
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: 10px; border: 1px solid var(--border); cursor: pointer; font-family: var(--sans); font-size: 14px; font-weight: 500; background: var(--surface); color: var(--text); transition: transform .08s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease; }
+  .btn:hover { border-color: #cbc5bd; box-shadow: var(--shadow); }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--ink, #141311); background: var(--text); color: #fff; border-color: var(--text); }
+  .btn-primary:hover { background: #2a2723; }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-ghost { background: var(--surface); color: var(--muted); }
+  .btn-ghost:hover { color: var(--text); }
+  .btn-sm { padding: 7px 13px; font-size: 13px; }
+  .btn-accent { background: var(--primary); color: #fff; border-color: var(--primary); font-weight: 600; }
+  .btn-accent:hover { background: var(--primary-light); }
+
+  /* QUIZ SCREEN */
+  .quiz-layout { display: grid; grid-template-columns: 250px 1fr; min-height: calc(100vh - 58px); }
+  @media(max-width: 768px) { .quiz-layout { grid-template-columns: 1fr; } }
+  .quiz-sidebar { background: rgba(255,255,255,.6); border-right: 1px solid var(--border); padding: 22px; overflow-y: auto; max-height: calc(100vh - 58px); position: sticky; top: 58px; }
+  @media(max-width: 768px) { .quiz-sidebar { display: none; } }
+  .sidebar-title { font-family: var(--mono); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 12px; }
+  .q-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 20px; }
+  .q-dot { width: 100%; aspect-ratio: 1; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 500; cursor: pointer; background: var(--surface); color: var(--muted); border: 1px solid var(--border); transition: all 0.1s; }
+  .q-dot:hover { border-color: var(--primary); color: var(--text); }
+  .q-dot.current { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .q-dot.answered { background: var(--accent-soft); color: var(--primary); border-color: #fed7aa; }
+  .q-dot.correct { background: var(--ok-bg); color: var(--success); border-color: #bbf7d0; }
+  .q-dot.incorrect { background: var(--bad-bg); color: var(--danger); border-color: #fecaca; }
+  .timer-box { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; margin-bottom: 16px; box-shadow: var(--shadow); }
+  .timer-box .time { font-family: var(--mono); font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 1px; color: var(--text); }
+  .timer-box .time.warning { color: var(--warning); }
+  .timer-box .time.danger { color: var(--danger); }
+  .timer-label { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 4px; }
+  .progress-bar { height: 5px; background: var(--rule); border-radius: 3px; overflow: hidden; margin-bottom: 16px; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.3s; }
+
+  .quiz-main { padding: 36px 44px; max-width: 800px; }
+  @media(max-width: 768px) { .quiz-main { padding: 24px 18px 80px; } }
+  .q-header { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+  .q-counter { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .q-domain-tag { font-family: var(--mono); font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 999px; }
+  .q-star { font-family: var(--mono); color: var(--star); font-size: 12px; }
+  .q-text { font-size: 18px; font-weight: 600; line-height: 1.5; margin-bottom: 8px; letter-spacing: -.2px; }
+  .q-instruction { font-family: var(--mono); font-size: 12px; color: var(--primary); margin-bottom: 22px; font-weight: 500; }
+  .options { display: flex; flex-direction: column; gap: 9px; margin-bottom: 26px; }
+  .option { display: flex; align-items: flex-start; gap: 13px; padding: 13px 15px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: background .12s ease, border-color .12s ease; background: var(--surface2); }
+  .option:hover:not(.disabled) { border-color: #cbc5bd; background: #fff; }
+  .option.selected { border-color: var(--primary); background: var(--accent-soft); }
+  .option.correct { border-color: #bbf7d0; background: linear-gradient(180deg, #f0fdf4, #ecfdf5); }
+  .option.incorrect { border-color: #fecaca; background: linear-gradient(180deg, #fef2f2, #fff5f5); }
+  .option.missed { border-color: #bbf7d0; background: var(--ok-bg); border-style: dashed; }
+  .option.disabled { cursor: default; }
+  .opt-key { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; font-weight: 700; flex-shrink: 0; background: var(--surface); border: 1px solid var(--border); color: var(--muted); margin-top: 1px; }
+  .option.selected .opt-key { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .option.correct .opt-key { background: var(--success); color: #fff; border-color: var(--success); }
+  .option.incorrect .opt-key { background: var(--danger); color: #fff; border-color: var(--danger); }
+  .option.missed .opt-key { background: #dcfce7; color: var(--success); border-color: #bbf7d0; }
+  .opt-text { font-size: 14.5px; line-height: 1.5; padding-top: 3px; }
+  .explanation { border-radius: 12px; padding: 14px 16px; margin-bottom: 24px; font-size: 14px; line-height: 1.6; display: none; background: linear-gradient(180deg, #fff, var(--surface2)); border: 1px solid var(--border); color: #3f3b37; }
+  .explanation.show { display: block; }
+  .explanation.ok { border-color: #bbf7d0; background: linear-gradient(180deg, #f0fdf4, #ecfdf5); }
+  .explanation.bad { border-color: #fecaca; background: linear-gradient(180deg, #fef2f2, #fff5f5); color: #7f1d1d; }
+  .explanation strong { color: var(--primary); }
+  .explanation.ok strong { color: var(--success); }
+  .explanation.bad strong { color: var(--danger); }
+
+  .q-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .q-actions-left { display: flex; gap: 8px; }
+  .kbd-hint { font-family: var(--mono); font-size: 10.5px; color: var(--muted); margin-top: 18px; opacity: .8; }
+  .kbd-hint kbd { background: var(--surface); border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; font-size: 10px; }
+
+  /* RESULTS */
+  .results { max-width: 800px; margin: 0 auto; padding: 48px 24px; }
+  .results-hero { text-align: center; margin-bottom: 36px; }
+  .score-ring { width: 124px; height: 124px; border-radius: 50%; margin: 0 auto 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: var(--mono); font-size: 32px; font-weight: 700; border: 6px solid var(--success); background: var(--surface); box-shadow: var(--shadow); }
+  .score-ring.fail { border-color: var(--danger); }
+  .score-ring .score-pct { line-height: 1; }
+  .score-ring .score-label { font-family: var(--mono); font-size: 10px; letter-spacing: 1px; font-weight: 500; color: var(--muted); margin-top: 4px; }
+  .results-hero h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; letter-spacing: -.3px; }
+  .results-hero p { color: var(--muted); font-size: 14px; }
+  .domain-results { display: grid; gap: 10px; margin-bottom: 30px; }
+  .domain-result-row { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; box-shadow: var(--shadow); }
+  .dr-label { flex: 1; font-size: 13px; font-weight: 600; }
+  .dr-bar-wrap { flex: 2; height: 8px; background: var(--rule); border-radius: 4px; overflow: hidden; }
+  .dr-bar { height: 100%; border-radius: 4px; background: var(--accent); transition: width 1s; }
+  .dr-pct { font-family: var(--mono); font-size: 13px; font-weight: 600; width: 44px; text-align: right; }
+  .results-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* STUDY MODE */
+  .study-controls { background: rgba(245,242,237,.82); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 12px 24px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; position: sticky; top: 58px; z-index: 90; }
+  .domain-pill { font-family: var(--mono); padding: 6px 13px; border-radius: 999px; border: 1px solid var(--border); font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s; color: var(--muted); background: var(--surface); }
+  .domain-pill:hover { color: var(--text); border-color: #cbc5bd; }
+  .domain-pill.active { color: #fff; border-color: transparent; }
+  .domain-pill[data-d="0"].active { background: var(--text); }
+  .domain-pill[data-d="1"].active { background: var(--d1); }
+  .domain-pill[data-d="2"].active { background: var(--d2); }
+  .domain-pill[data-d="3"].active { background: var(--d3); }
+  .domain-pill[data-d="4"].active { background: var(--d4); }
+  .domain-pill[data-d="5"].active { background: var(--d5); }
+  .domain-pill[data-d="6"].active { background: var(--d6); }
+  .study-list { max-width: 800px; margin: 0 auto; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+  .study-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); transition: box-shadow .18s ease; }
+  .study-card:hover { box-shadow: var(--shadow-hover); }
+  .study-card-header { padding: 16px 20px; cursor: pointer; display: flex; align-items: flex-start; gap: 12px; }
+  .study-qnum { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--muted); white-space: nowrap; padding-top: 2px; }
+  .study-qtext { font-size: 14.5px; font-weight: 600; line-height: 1.5; flex: 1; }
+  .study-body { padding: 0 20px 20px; display: none; }
+  .study-body.open { display: block; }
+  .study-option { display: flex; gap: 10px; padding: 9px 12px; border-radius: 9px; margin-bottom: 6px; font-size: 13.5px; background: var(--surface2); border: 1px solid transparent; }
+  .study-option.correct-opt { background: var(--ok-bg); color: var(--success); border-color: #bbf7d0; font-weight: 500; }
+  .study-explanation { background: linear-gradient(180deg, #fff, var(--surface2)); border: 1px solid var(--border); border-left: 3px solid var(--primary); border-radius: 9px; padding: 11px 14px; font-size: 13px; color: #3f3b37; margin-top: 10px; line-height: 1.6; }
+  .study-explanation strong { color: var(--primary); }
+  .chevron { transition: transform 0.2s; color: var(--muted); flex-shrink: 0; }
+  .study-card.open .chevron { transform: rotate(180deg); }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(60px); background: var(--text); color: #fff; border-radius: 10px; padding: 10px 20px; font-size: 13px; z-index: 999; transition: transform 0.3s; pointer-events: none; box-shadow: var(--shadow-hover); }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* UTILS */
+  .tag { display: inline-flex; align-items: center; font-family: var(--mono); padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 500; }
+  .tag-real { background: var(--accent-soft); color: var(--star); border: 1px solid #fed7aa; }
+  .tag-multi { background: #eef2ff; color: var(--d6); border: 1px solid #c7d2fe; }
+  .divider { height: 1px; background: var(--rule); margin: 18px 0; }
+  .select-all-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .select-all-row p { font-size: 13px; font-weight: 600; }
+
+  @media(max-width: 640px) {
+    .home { padding: 32px 18px; }
+    .home-hero h1 { font-size: 27px; }
+    .mode-cards { grid-template-columns: 1fr; }
+    .nav { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-logo">SN</div>
+    <span>CSA Practice</span>
+  </div>
+  <div class="nav-actions">
+    <button class="btn btn-ghost btn-sm" id="homeBtn" style="display:none" onclick="goHome()">← Home</button>
+    <span id="navScore" style="font-family:var(--mono);font-size:12px;color:var(--muted);display:none"></span>
+  </div>
+</nav>
+
+<!-- HOME SCREEN -->
+<div class="screen active" id="homeScreen">
+  <div class="home">
+    <div class="home-hero">
+      <h1>ServiceNow <span>CSA</span> Practice Quiz</h1>
+      <p>135 questions aligned to the official exam blueprint (KB0011554, Jan 2026). 60 questions on the real exam.</p>
+      <div class="best-line" id="bestLine" style="display:none"></div>
+    </div>
+
+    <div class="resume-banner" id="resumeBanner">
+      <div class="rb-text" id="resumeText">You have an exam in progress.</div>
+      <div class="rb-actions">
+        <button class="btn btn-ghost btn-sm" onclick="discardSaved()">Discard</button>
+        <button class="btn btn-accent btn-sm" onclick="resumeQuiz()">Resume →</button>
+      </div>
+    </div>
+
+    <div class="mode-cards">
+      <div class="mode-card active" id="examModeCard" onclick="setMode('exam')">
+        <h3><span class="mode-icon">⏱️</span> Exam Simulation</h3>
+        <p>60 questions, 90-minute timer, proportional domain coverage. No answer hints until you finish.</p>
+      </div>
+      <div class="mode-card" id="studyModeCard" onclick="setMode('study')">
+        <h3><span class="mode-icon">📖</span> Study Mode</h3>
+        <p>Browse all 135 questions by domain. Click any card to reveal the answer and explanation.</p>
+      </div>
+    </div>
+
+    <div class="quick-actions" id="quickActions">
+      <button class="drill-btn" id="drillBtn" onclick="startWeakDrill()">🔥 Drill weak domains <span id="drillLabel">(D5 Security + D6 Integration)</span></button>
+    </div>
+
+    <div id="examOptions">
+      <div class="select-all-row">
+        <p>Filter domains (all selected by default):</p>
+        <button class="btn btn-ghost btn-sm" onclick="toggleAll()">Toggle All</button>
+      </div>
+      <div class="domain-grid" id="domainGrid"></div>
+    </div>
+
+    <div class="start-row">
+      <div class="start-info" id="startInfo"></div>
+      <button class="btn btn-primary" id="startBtn" onclick="startQuiz()">Start Quiz →</button>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ SCREEN -->
+<div class="screen" id="quizScreen">
+  <div class="quiz-layout">
+    <div class="quiz-sidebar">
+      <div id="timerWrap" style="display:none">
+        <div class="timer-label">Time remaining</div>
+        <div class="timer-box"><div class="time" id="timerDisplay">90:00</div></div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="sidebar-title">Questions</div>
+      <div class="q-grid" id="qGrid"></div>
+      <div class="divider"></div>
+      <button class="btn btn-ghost btn-sm" style="width:100%" onclick="finishQuiz()">Finish &amp; Review</button>
+    </div>
+    <div class="quiz-main">
+      <div class="q-header">
+        <span class="q-counter" id="qCounter"></span>
+        <span class="q-domain-tag tag" id="qDomainTag"></span>
+        <span class="q-star" id="qStar" style="display:none">⭐ Real Exam</span>
+      </div>
+      <div class="q-text" id="qText"></div>
+      <div class="q-instruction" id="qInstruction"></div>
+      <div class="options" id="optionsContainer"></div>
+      <div class="explanation" id="explanation"></div>
+      <div class="q-actions">
+        <div class="q-actions-left">
+          <button class="btn btn-ghost btn-sm" id="prevBtn" onclick="navQ(-1)">← Prev</button>
+          <button class="btn btn-ghost btn-sm" id="nextBtn" onclick="navQ(1)">Next →</button>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost btn-sm" id="revealBtn" onclick="revealAnswer()" style="display:none">Reveal Answer</button>
+          <button class="btn btn-accent btn-sm" id="submitBtn" onclick="submitAnswer()">Submit</button>
+        </div>
+      </div>
+      <div class="kbd-hint">Shortcuts: <kbd>1</kbd>–<kbd>5</kbd> select · <kbd>←</kbd> <kbd>→</kbd> navigate · <kbd>Enter</kbd> submit</div>
+    </div>
+  </div>
+</div>
+
+<!-- STUDY SCREEN -->
+<div class="screen" id="studyScreen">
+  <div class="study-controls">
+    <button class="domain-pill active" data-d="0" onclick="filterStudy(0)">All (135)</button>
+    <button class="domain-pill" data-d="1" onclick="filterStudy(1)">D1 · Navigation</button>
+    <button class="domain-pill" data-d="2" onclick="filterStudy(2)">D2 · Config</button>
+    <button class="domain-pill" data-d="3" onclick="filterStudy(3)">D3 · Collab</button>
+    <button class="domain-pill" data-d="4" onclick="filterStudy(4)">D4 · Self-Service</button>
+    <button class="domain-pill" data-d="5" onclick="filterStudy(5)">D5 · DB &amp; Security</button>
+    <button class="domain-pill" data-d="6" onclick="filterStudy(6)">D6 · Data Migration</button>
+  </div>
+  <div class="study-list" id="studyList"></div>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div class="screen" id="resultsScreen">
+  <div class="results">
+    <div class="results-hero">
+      <div class="score-ring" id="scoreRing">
+        <div class="score-pct" id="scorePct">0%</div>
+        <div class="score-label">SCORE</div>
+      </div>
+      <h2 id="resultsHeadline">Results</h2>
+      <p id="resultsSubtitle"></p>
+    </div>
+    <div class="domain-results" id="domainResults"></div>
+    <div class="results-actions">
+      <button class="btn btn-ghost" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-primary" onclick="goHome()">New Quiz</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── DATA ─────────────────────────────────────────────────────────────────────
+const DOMAINS = [
+  null,
+  { name: 'Platform Overview & Navigation', weight: 7, color: 'var(--d1)' },
+  { name: 'Instance Configuration', weight: 10, color: 'var(--d2)' },
+  { name: 'Configuring Applications for Collaboration', weight: 20, color: 'var(--d3)' },
+  { name: 'Self-Service & Automation', weight: 20, color: 'var(--d4)' },
+  { name: 'Database Management & Platform Security', weight: 30, color: 'var(--d5)' },
+  { name: 'Data Migration & Integration', weight: 13, color: 'var(--d6)' },
+];
+
+const QS = [
+{id:1,d:1,q:"Which application is available to ALL users by default in ServiceNow?",opts:["Change", "Incident", "Facilities", "Self Service"],ans:[3],multi:false,real:false,exp:"Self Service is the only default app for all users"},
+{id:2,d:1,q:"Which module displays tasks assigned to a user's group but NOT yet assigned to an individual?",opts:["My Teams Work", "My Groups Work", "My Groups Tasks", "My Teams Tasks"],ans:[1],multi:false,real:false,exp:"My Groups Work = group queue not yet assigned to an individual"},
+{id:3,d:1,q:"What is the Application Navigator used for?",opts:["Tracking the history of record changes", "Accessing all installed applications and their modules", "Defining workflow routing logic", "Managing database table schemas"],ans:[1],multi:false,real:false,exp:"Application Navigator = left sidebar for all apps/modules"},
+{id:4,d:1,q:"A user wants to return quickly to a frequently used module without searching. Which feature should they use?",opts:["System Properties", "Favorites (starred items)", "The search bar only", "Update Set history"],ans:[1],multi:false,real:false,exp:"Favorites = bookmarks for quick navigation"},
+{id:5,d:1,q:"In Next Experience Unified Navigation, where does a user set personal preferences such as time zone, language, and theme?",opts:["System Properties > User Preferences", "User Administration > User Profile", "The Profile menu (avatar/name in the top-right corner)", "System Settings > Global"],ans:[2],multi:false,real:false,exp:"Profile menu = personal preferences"},
+{id:6,d:1,q:"What is the Service Portal in ServiceNow?",opts:["An admin portal for managing plugins and Update Sets", "A consumer-friendly web interface for end users to submit requests, search knowledge, and track tickets — separate from the backend admin UI", "A reporting portal for compliance dashboards", "A portal used exclusively for change management approvals"],ans:[1],multi:false,real:false,exp:"Service Portal = self-service front end for end users"},
+{id:7,d:1,q:"Where can a user find recently viewed records in the Next Experience UI?",opts:["Application menu", "Favorites", "History / Recent module", "System Log"],ans:[2],multi:false,real:false,exp:"History/Recent = recently viewed records"},
+{id:8,d:1,q:"Which of the following are typical starting points for navigation in the Next Experience UI?",opts:["Type a table name or module name in the Application Navigator filter text box", "Use a direct instance URL with a `/nav_to.do?uri=` reference", "Edit `global.js` in the customer instance files", "SSH into the instance and edit `index.html`"],ans:[0, 1],multi:true,real:false,exp:"Filter text + direct URL are the two nav starting points"},
+{id:9,d:2,q:"What is a Plugin in ServiceNow?",opts:["An optional feature or application activated via the Plugin Manager to extend platform functionality", "A third-party JavaScript library embedded in a client script", "A MID Server extension for protocol translation", "A widget added to the Service Portal"],ans:[0],multi:false,real:false,exp:"Plugin = optional feature activated via Plugin Manager"},
+{id:10,d:2,q:"Why would an administrator install a plugin on a ServiceNow instance?",opts:["To patch the underlying operating system", "To add new platform capabilities such as HR, ITSM, or SecOps functionality", "To connect to third-party email providers only", "To safely delete system properties"],ans:[1],multi:false,real:false,exp:"Plugins extend the platform with new tables, logic, and UX"},
+{id:11,d:2,q:"What is the purpose of System Properties (sys_properties)?",opts:["Read-only metadata about the current platform version", "Global key-value configuration settings that control platform and application behavior without code changes", "A log of all system events for audit purposes", "The definition of field types in the database dictionary"],ans:[1],multi:false,real:false,exp:"System Properties = global key-value config settings"},
+{id:12,d:2,q:"A ServiceNow admin wants to copy the production instance's data and configuration onto a development instance. What is this process called?",opts:["Export/Import via Update Sets", "Instance Cloning", "Data Migration via Import Sets", "Plugin synchronization"],ans:[1],multi:false,real:false,exp:"Cloning = copy one instance onto another"},
+{id:13,d:2,q:"What is a MID Server?",opts:["A secondary ServiceNow instance used for load balancing", "A Java application installed on a customer's on-premises network that allows the cloud instance to communicate with resources behind the firewall", "A caching layer between the browser and the ServiceNow instance", "A middleware server that converts REST calls to SOAP"],ans:[1],multi:false,real:false,exp:"MID Server = on-prem Java agent bridging cloud to LAN"},
+{id:14,d:2,q:"Which plugin or application would enable HR Service Delivery capabilities on an instance?",opts:["Customer Service Management", "HR Service Delivery", "Financial Services Operations", "IT Asset Management"],ans:[1],multi:false,real:false,exp:"HR Service Delivery is its own plugin/application"},
+{id:15,d:2,q:"Which interface is best for adding UI text and widgets without writing code?",opts:["Scripted REST API", "UI Scripts (raw JS only)", "UI Builder / low-code interface", "MID Server terminal"],ans:[2],multi:false,real:false,exp:"UI Builder = no-code interface for UI components"},
+{id:16,d:2,q:"A user wants to personalize which columns appear in their list view. What feature allows this?",opts:["Form Designer", "List Personalization (gear icon or right-click column header)", "Dictionary Override", "System Properties"],ans:[1],multi:false,real:false,exp:"List Personalization = per-user column customization"},
+{id:17,d:2,q:"Which of the following can be personalized per user in the platform?",opts:["Homepage dashboard layout", "Browser network stack settings", "Time zone and language on My Profile", "Linux kernel parameters"],ans:[0, 2],multi:true,real:false,exp:"Homepage and profile settings are user-personalizable"},
+{id:18,d:2,q:"What setting path is used when configuring application-specific instance behavior?",opts:["Version Control menu on the form header", "Application Properties or System Properties", "Browser developer console", "Command-line launcher only"],ans:[1],multi:false,real:false,exp:"Application Properties or System Properties"},
+{id:19,d:3,q:"What does the breadcrumb filter at the top of a ServiceNow list do?",opts:["Shows the navigation path (app > module) for back-navigation", "Displays active filter conditions applied to the list and allows quick removal of individual conditions", "Defines which columns are shown", "Indicates which Update Set last modified the records"],ans:[1],multi:false,real:false,exp:"Breadcrumb = active filter conditions, removable chips"},
+{id:20,d:3,q:"What does \"grouping\" records in a list do?",opts:["Merges duplicate records into one", "Organizes list rows into collapsible sections based on a chosen field value", "Applies a permanent mandatory filter", "Exports records grouped by field to a CSV report"],ans:[1],multi:false,real:false,exp:"Grouping = collapsible sections by field value"},
+{id:21,d:3,q:"What is a View on a ServiceNow form?",opts:["A saved filter condition for a list", "A specific arrangement of fields on a form designed for a particular role or context", "A dashboard tab combining multiple reports", "A read-only snapshot of a record at a specific point in time"],ans:[1],multi:false,real:false,exp:"View = field arrangement for a specific role/context"},
+{id:22,d:3,q:"What is a Form Template used for?",opts:["Designing the visual layout of a dashboard", "Pre-populating a new record's fields with saved default values to speed up data entry", "Creating a reusable workflow stage", "Defining required fields for import sets"],ans:[1],multi:false,real:false,exp:"Form Template = saved field defaults for faster data entry"},
+{id:23,d:3,q:"What is the purpose of Tags in ServiceNow?",opts:["Labels that can be applied to records to help users organize and find related records across different tables", "Labels that mark fields as mandatory", "System-defined categories used in the Service Catalog", "Metadata markers applied to Update Set records"],ans:[0],multi:false,real:false,exp:"Tags = cross-table labels for organizing records"},
+{id:24,d:3,q:"What is a reference qualifier used for?",opts:["Changing database collation settings", "Restricting the values that appear in a reference field dropdown based on defined conditions", "Increasing plugin memory allocation", "Adding custom page headers to forms"],ans:[1],multi:false,real:false,exp:"Reference qualifier = restricts values in reference field dropdown"},
+{id:25,d:3,q:"Which form section behavior hides content from view while keeping it on the record?",opts:["Collapsible section", "Dictionary delete action", "Table truncation", "Audit field removal"],ans:[0],multi:false,real:false,exp:"Collapsible section = hidden but still on the record"},
+{id:26,d:3,q:"Which of the following best describes a Visual Task Board (VTB)?",opts:["A Kanban-style board for visualizing and managing tasks across lanes/stages", "A reporting dashboard that aggregates task metrics", "A form layout editor for task records", "A workflow diagram showing approval stages"],ans:[0],multi:false,real:false,exp:"VTB = Kanban-style task board"},
+{id:27,d:3,q:"What are the three types of Visual Task Boards?",opts:["Freeform — display any task type; members can manually add/remove cards and define lanes", "Flexible — filter-driven; cards removed automatically when tasks no longer match the filter; custom lanes allowed", "Guided — lanes correspond to a field's values (e.g., State) and cannot be manually edited", "Static — read-only snapshots of task states", "Report boards — generated directly from a PA indicator"],ans:[0, 1, 2],multi:true,real:false,exp:"Three types: Freeform, Flexible, Guided"},
+{id:28,d:3,q:"What is the difference between a Report and a Dashboard?",opts:["A report is a single data visualization; a dashboard aggregates multiple reports and widgets on one page", "Reports are admin-only; dashboards are available to all users", "Reports use only PA indicators; dashboards use only table queries", "Reports are scheduled; dashboards update in real time only"],ans:[0],multi:false,real:false,exp:"Report = single viz; Dashboard = collection of visualizations"},
+{id:29,d:3,q:"By default, who can see a report after it is created?",opts:["All users on the instance", "Only the report creator — it must be explicitly shared to be visible to others", "All users with the itil role", "All members of the creator's assignment group"],ans:[1],multi:false,real:false,exp:"Reports are private by default"},
+{id:30,d:3,q:"Which report type best shows the proportion of open incidents by category?",opts:["Time Series", "Gauge", "Pie / Donut chart", "Single Score"],ans:[2],multi:false,real:false,exp:"Pie/Donut = proportion/distribution"},
+{id:31,d:3,q:"What does Performance Analytics add beyond standard table reports?",opts:["Real-time streaming from external BI tools", "The ability to collect indicator data over time and track KPI trends historically; standard reports only show a point-in-time snapshot", "AI-powered narrative summaries", "Automated export to PowerPoint"],ans:[1],multi:false,real:false,exp:"PA = historical trend data via collected indicators"},
+{id:32,d:3,q:"A report shows duplicate rows for the same user. What should an admin check first?",opts:["User login session timeouts", "Duplicate active user records or duplicate entries in a reference field", "Plugin license expiration", "Kernel lock wait timeout"],ans:[1],multi:false,real:false,exp:"Duplicate user records or duplicate reference field entries"},
+{id:33,d:3,q:"What is an Email Notification in ServiceNow?",opts:["An automated email triggered by a defined record event or condition, sent to specified recipients", "An inbound action that converts incoming emails into records", "A scheduled batch email report sent to all admins", "A notification sent only when a record is manually flagged"],ans:[0],multi:false,real:false,exp:"Email Notification = event-driven automated email"},
+{id:34,d:3,q:"What is an Inbound Action used for?",opts:["Processing incoming emails to create or update records automatically", "Sending automated alerts to users based on threshold breaches", "Triggering a Flow Designer flow on a scheduled interval", "Importing external data via REST API"],ans:[0],multi:false,real:false,exp:"Inbound Action = incoming email → create/update record"},
+{id:35,d:3,q:"What are Work Notes vs Additional Comments on a task record?",opts:["Both are visible to all users including end customers", "Work Notes are internal (visible only to agents/fulfillment groups); Additional Comments are customer-facing", "Work Notes require manager approval; Additional Comments do not", "Work Notes are automatically sent by email; Additional Comments are not"],ans:[1],multi:false,real:false,exp:"Work Notes = internal; Additional Comments = customer-visible"},
+{id:36,d:3,q:"What is the purpose of an SLA (Service Level Agreement) on a task?",opts:["A time target commitment for response and/or resolution; triggers escalation actions when breached", "A role required to close an incident", "A catalog item type for requesting service agreements", "A business rule that fires when a task is assigned"],ans:[0],multi:false,real:false,exp:"SLA = time target + escalation trigger on breach"},
+{id:37,d:3,q:"Which best describes rota-based task assignment for a task queue?",opts:["Visual Task Board delegation rules only", "Assignment rules, workload management, or assignment groups", "Update Set merge operations on weekends", "Plugin disable/enable cycles"],ans:[1],multi:false,real:false,exp:"Assignment rules/groups handle rota-based assignment"},
+{id:38,d:3,q:"When should an admin avoid heavy email notifications for high-volume events?",opts:["When event management, in-app notifications, or webhooks are preferred to reduce email noise", "Only when the table contains no email field", "When browser-only routing is blocked", "Only when the MID Server is offline"],ans:[0],multi:false,real:false,exp:"Event management/webhooks preferred for high-volume alerts"},
+{id:39,d:3,q:"Which dashboard type is best suited for executive KPI review and trend tracking?",opts:["A terminal shell view", "A Performance Analytics or Platform Analytics dashboard", "A MID Server console dashboard", "A source code repository dashboard"],ans:[1],multi:false,real:false,exp:"PA/Platform Analytics dashboard for KPI trends"},
+{id:40,d:3,q:"Where are notification definitions configured for a given table?",opts:["MID Server network map", "System Notification > Email > Notifications", "Linux cron table", "Application Navigator > Logs"],ans:[1],multi:false,real:false,exp:"System Notification > Email > Notifications"},
+{id:41,d:4,q:"What is a Knowledge Base in ServiceNow used for?",opts:["Storing articles that help users and agents find answers without opening tickets", "Storing CI configuration data for the CMDB", "Reducing repeat incidents by deflecting users to self-service answers", "Automating approval routing for change requests"],ans:[0, 2],multi:true,real:false,exp:"KB = self-service answers + incident deflection"},
+{id:42,d:4,q:"Which knowledge article state allows end users to find and read the article?",opts:["Draft", "Published", "Retired", "Obsolete"],ans:[1],multi:false,real:false,exp:"Published = visible to end users"},
+{id:43,d:4,q:"Which role is typically required to publish a knowledge article?",opts:["admin", "knowledge or knowledge_admin", "itil", "catalog_admin"],ans:[1],multi:false,real:false,exp:"knowledge or knowledge_admin role required"},
+{id:44,d:4,q:"What controls which users can see a specific Knowledge Base or Service Catalog item?",opts:["ACL rules on the kb_knowledge table", "User Criteria", "Business Rules with role conditions", "System Properties"],ans:[1],multi:false,real:false,exp:"User Criteria = visibility rules for KB and catalog"},
+{id:45,d:4,q:"Which data structure supports nested categorization of knowledge articles?",opts:["Knowledge article text body only", "Knowledge categories hierarchy", "Virtual Agent intents", "Update Set lineage tree"],ans:[1],multi:false,real:false,exp:"Knowledge categories hierarchy supports nested topics"},
+{id:46,d:4,q:"In the Service Catalog, what is a Catalog Item?",opts:["A predefined offering (e.g., new laptop, software access) that end users can request", "A configuration record containing workflow routing logic", "A report showing pending fulfillment status", "A role granting access to submit requests"],ans:[0],multi:false,real:false,exp:"Catalog Item = requestable offering"},
+{id:47,d:4,q:"What record is created when a user submits a Service Catalog request?",opts:["An Incident (inc)", "A Request (sc_request) containing one or more Requested Items (sc_req_item)", "A Task (task) and a Change Request (change_request)", "A Problem (problem) and a Service Request (sc_task)"],ans:[1],multi:false,real:false,exp:"sc_request (parent) + sc_req_item (one per item ordered)"},
+{id:48,d:4,q:"Multiple Choice, Single Line Text, and Select Box are what type of element in ServiceNow?",opts:["Order Guides", "Request Types", "Variable Types", "Related Lists"],ans:[2],multi:false,real:false,exp:"Variable Types = field types on catalog item request forms"},
+{id:49,d:4,q:"What is an Order Guide in the Service Catalog?",opts:["A bundle of related catalog items ordered together as a package", "Step-by-step help text displayed when a user opens a catalog item", "The SLA definition for fulfillment time targets", "The approval chain definition for a catalog request"],ans:[0],multi:false,real:false,exp:"Order Guide = bundled catalog items as a package"},
+{id:50,d:4,q:"What is the difference between a Record Producer and a Catalog Item?",opts:["Both create only email notification templates", "Record Producers create records in any target table; standard Catalog Items generate sc_request/sc_req_item records", "Record Producers disable workflows on the target record", "Catalog Items are limited to read ACLs only"],ans:[1],multi:false,real:false,exp:"Record Producer → any target table; Catalog Item → sc_request"},
+{id:51,d:4,q:"How is the request workflow triggered when a user orders a catalog item?",opts:["Browser cron schedule", "The catalog item's associated flow or workflow activates on submission of the sc_request/sc_req_item", "MID Server scheduler", "Linux cron"],ans:[1],multi:false,real:false,exp:"Flow/workflow fires on sc_req_item creation"},
+{id:52,d:4,q:"In Flow Designer, what is the difference between a Flow and a Subflow?",opts:["A Flow is triggered by an event, schedule, or catalog item; a Subflow is a reusable logic component called from flows or other subflows", "Flows run client-side; Subflows run server-side", "Flows are limited to one application scope; Subflows are global only", "Flows require scripting; Subflows are no-code only"],ans:[0],multi:false,real:false,exp:"Flow = triggered; Subflow = reusable component"},
+{id:53,d:4,q:"Which of the following can trigger a Flow Designer flow?",opts:["A record being created or updated", "A scheduled date/time or recurring interval", "A MID Server heartbeat event", "A plugin being activated"],ans:[0, 1],multi:true,real:false,exp:"Record triggers and scheduled triggers"},
+{id:54,d:4,q:"A self-service flow needs to pause and wait for a manager's approval before continuing. Which pattern is standard in Flow Designer?",opts:["A busy-wait loop using gs.info()", "An Approval action / human approval activity step in the flow", "SQL sleep on the transaction table", "A client-side blocking script"],ans:[1],multi:false,real:false,exp:"Approval action = standard pause-for-human-approval step"},
+{id:55,d:4,q:"What is Virtual Agent in ServiceNow?",opts:["An AI-powered chatbot platform that provides user assistance through automated conversations, helping users get information and complete tasks without agent involvement", "A background automation that runs scripts on a schedule", "An agent desktop tool that suggests answers to live human agents", "A testing framework for validating flow automations"],ans:[0],multi:false,real:false,exp:"Virtual Agent = AI chatbot for user self-service"},
+{id:56,d:4,q:"Virtual Agent topics can be authored using which of the following?",opts:["Virtual Agent Designer (drag-and-drop graphical canvas)", "NLU (Natural Language Understanding) for intent recognition", "Import Sets to load conversation scripts from Excel", "Transform Maps to define conversation branching rules"],ans:[0, 1],multi:true,real:false,exp:"VA Designer + NLU"},
+{id:57,d:4,q:"When should Virtual Agent be preferred over a static knowledge article?",opts:["When conversational intent routing helps users find the right answer faster", "When the content must never be updated", "When guided form completion reduces user errors", "When the file must be attached as a binary"],ans:[0, 2],multi:true,real:false,exp:"Conversational routing + guided forms"},
+{id:58,d:4,q:"What does Virtual Agent \"deflection\" mean?",opts:["Routing a ticket to a different assignment group", "Resolving a user's issue through the chatbot so no human-agent ticket is created", "Redirecting a user from the Service Portal to the backend admin UI", "Moving a conversation from Virtual Agent to email"],ans:[1],multi:false,real:false,exp:"Deflection = bot resolves, no ticket created"},
+{id:59,d:5,q:"In ServiceNow, what is a Table?",opts:["A collection of records where each row is a record and each column is a field", "A grouping of workflow stages", "A container for Update Set configuration changes", "A form layout template"],ans:[0],multi:false,real:false,exp:"Table = rows (records) + columns (fields)"},
+{id:60,d:5,q:"Which table is the parent (base) for Incident, Problem, and Change Request?",opts:["sys_metadata", "cmdb_ci", "task", "sys_user"],ans:[2],multi:false,real:false,exp:"`task` is the base parent for all task-type records"},
+{id:61,d:5,q:"What does it mean for one table to extend another?",opts:["The child table inherits all fields from the parent and can add its own unique fields", "The child table copies the parent's records on a nightly schedule", "The child table's records replace the parent's records when deployed", "The child table only holds a foreign key reference to the parent"],ans:[0],multi:false,real:false,exp:"Extending = inheritance; child gets all parent fields"},
+{id:62,d:5,q:"Which object defines the schema (fields and their properties) of a table in ServiceNow?",opts:["Dictionary entry (sys_dictionary)", "Browser cache", "MID Server config file", "Update Set XML"],ans:[0],multi:false,real:false,exp:"Dictionary entry = schema definition for each field"},
+{id:63,d:5,q:"What is the sys_id of a record?",opts:["The display name field shown in reference dropdowns", "A globally unique identifier (GUID) automatically assigned to every record in every table", "The internal name of a table", "The primary key used only on the task table"],ans:[1],multi:false,real:false,exp:"sys_id = GUID on every record in every table"},
+{id:64,d:5,q:"Which field type stores a link to a record in another table and displays that record's display value?",opts:["String", "Integer", "Reference", "Choice"],ans:[2],multi:false,real:false,exp:"Reference field = pointer to record in another table"},
+{id:65,d:5,q:"What is a Dictionary Override used for?",opts:["Overriding an ACL rule for a specific application scope", "Renaming a table field in a specific language", "Changing the attributes of a field (e.g., making it mandatory) on a child/extended table without modifying the parent table definition", "Replacing a field's display value with a calculated value"],ans:[2],multi:false,real:false,exp:"Dictionary Override = modify inherited field on child table only"},
+{id:66,d:5,q:"What is an Access Control (ACL) rule used for?",opts:["Defining which roles can read, write, create, or delete records and fields in a table", "Encrypting data in transit between instances", "Scheduling which users can log in during specific hours", "Controlling which fields are exported in an Update Set"],ans:[0],multi:false,real:false,exp:"ACL = read/write/create/delete access rules"},
+{id:67,d:5,q:"Which describes ACL evaluation order — from most general to most specific?",opts:["Field-level → Record-level → Table-level (most general wins)", "Table-level → Record-level → Field-level (most specific wins)", "All levels are evaluated simultaneously; first match wins", "Only one level can exist per table"],ans:[1],multi:false,real:false,exp:"Table → Record → Field; most specific level governs"},
+{id:68,d:5,q:"A standard user cannot view a record they should be able to see. Which should an admin check first?",opts:["Reset the user's browser zoom", "Read ACL rules, roles assigned to the user, and any record-level conditions", "Replace the network router firmware", "Restart the MID Server"],ans:[1],multi:false,real:false,exp:"Check Read ACL + roles + record conditions"},
+{id:69,d:5,q:"A support engineer can view incidents but cannot create new ones. What is the most likely cause?",opts:["Browser zoom is too low", "Read ACL is allowing access, but write/create ACL is missing or denied for that role", "Linux file permission error on the instance", "The MID Server is offline"],ans:[1],multi:false,real:false,exp:"Read ACL = allowed; write/create ACL = missing"},
+{id:70,d:5,q:"What does the admin role grant in ServiceNow?",opts:["Read-only access to all tables for auditing", "Permission to manage user accounts and groups only", "Full unrestricted access to all platform features, tables, and configuration; admins can override ACLs", "Access limited to the Service Portal and self-service modules"],ans:[2],multi:false,real:false,exp:"admin = full access, can override ACLs"},
+{id:71,d:5,q:"How are roles typically granted to users?",opts:["Assigned directly on the user's record", "Inherited through membership in a group that has the role assigned", "Automatically assigned based on the user's department field value", "Deployed by running an Update Set on the production instance"],ans:[0, 1],multi:true,real:false,exp:"Direct assignment or inherited via group"},
+{id:72,d:5,q:"Why is separating user roles a security principle in ServiceNow?",opts:["It increases database size for audit trails", "It follows least privilege and separation of duties principles", "It increases network latency between instances", "It disables catalog widgets for standard users"],ans:[1],multi:false,real:false,exp:"Least privilege + separation of duties"},
+{id:73,d:5,q:"Which capability helps identify users with excess privileges?",opts:["MID Server connectivity test", "User access review and Access Control rule assessment (Access Analyzer)", "DNS cache flush", "Linux uptime report"],ans:[1],multi:false,real:false,exp:"Access Analyzer = identifies excess privileges"},
+{id:74,d:5,q:"What is the purpose of an Import Set in ServiceNow?",opts:["A staging table that holds data imported from an external source before it is transformed into a target ServiceNow table", "A container for moving configuration changes between instances", "A scheduled job that extracts CMDB data nightly", "A method for exporting records to an external system"],ans:[0],multi:false,real:false,exp:"Import Set = staging table before transform"},
+{id:75,d:5,q:"What is a Transform Map used for?",opts:["Converting Update Set XML from one format to another", "Translating UI labels into different languages", "Mapping CI relationships between CMDB classes", "Defining how each field in an Import Set table maps to a field in the target ServiceNow table"],ans:[3],multi:false,real:false,exp:"Transform Map = field mapping staging → target table"},
+{id:76,d:5,q:"What is a Coalesce field in a Transform Map?",opts:["A required field that must be present for a transform to execute", "A field that prevents duplicate records by matching incoming data against existing records using that field as a key", "A field that combines multiple source columns into one target field", "A field that triggers a post-transform business rule"],ans:[1],multi:false,real:false,exp:"Coalesce = match key to prevent duplicate imports"},
+{id:77,d:5,q:"Before importing a large data set, which step helps avoid bulk transform failures?",opts:["Convert the CSV to JPEG format first", "Define required fields, validate data format, and run a small test batch first", "Disable logging on the instance", "Rename the staging table"],ans:[1],multi:false,real:false,exp:"Validate format + test batch before bulk import"},
+{id:78,d:5,q:"When a data migration fails with duplicate key errors, what is the first thing to check?",opts:["Browser extension list", "Unique constraints in the target table and whether duplicate records already exist", "Instance memory allocation", "MID Server power cycle"],ans:[1],multi:false,real:false,exp:"Check unique constraints + existing duplicate records"},
+{id:79,d:5,q:"What is the CMDB used for in ServiceNow?",opts:["Storing and managing configuration items (CIs) and their relationships to support IT service management", "Staging imported data before transformation", "Archiving closed incident records for compliance", "Storing Update Set deployment history"],ans:[0],multi:false,real:false,exp:"CMDB = authoritative CI inventory + relationships"},
+{id:80,d:5,q:"Which of the following are examples of CI classes in the CMDB?",opts:["cmdb_ci_server (Server)", "sys_user (User)", "cmdb_ci_appl (Application)", "sc_request (Service Catalog Request)"],ans:[0, 2],multi:true,real:false,exp:"cmdb_ci_server and cmdb_ci_appl are CI classes"},
+{id:81,d:5,q:"What does CSDM stand for, and what is it used for?",opts:["Cloud Service Delivery Manager — a cloud cost optimization tool", "Common Service Data Model — a standard framework defining how business services, technical services, and CIs relate in the CMDB", "Control Server Device Mode — a MID Server configuration mode", "Client-Side Data Mirror — a caching layer for reference fields"],ans:[1],multi:false,real:false,exp:"Common Service Data Model = standard framework for services/CIs"},
+{id:82,d:5,q:"Which application supports automated CI population in the CMDB?",opts:["Browser developer console", "Discovery and Service Mapping", "Linux package manager", "Virtual Agent browser extension"],ans:[1],multi:false,real:false,exp:"Discovery and Service Mapping populate the CMDB"},
+{id:83,d:5,q:"What does CMDB reconciliation do?",opts:["Deletes all CI records older than 90 days", "Identifies and resolves duplicate or conflicting CI records from multiple data sources", "Increases network packet volume for CI discovery", "Controls Linux log rotation"],ans:[1],multi:false,real:false,exp:"Reconciliation resolves duplicate/conflicting CI records"},
+{id:84,d:5,q:"What is the Security Center (formerly Instance Security Center) used for?",opts:["A marketplace for approved security plugins", "A tool for scanning Update Sets for malicious scripts before commit", "A consolidated dashboard for monitoring instance security compliance, viewing security events, configuring hardening settings, and managing user sessions", "A report generator for PCI audit evidence only"],ans:[2],multi:false,real:false,exp:"Security Center = compliance + events + hardening + sessions"},
+{id:85,d:5,q:"What is the Daily Compliance Score in the Security Center?",opts:["A count of failed login attempts in the last 24 hours", "The percentage of incidents resolved within SLA targets in the past day", "A percentage score indicating how compliant the instance's security property settings are with recommended hardening guidelines", "A daily export of the instance's ACL configuration"],ans:[2],multi:false,real:false,exp:"Daily Compliance Score = % of hardening properties correctly set"},
+{id:86,d:5,q:"What does the Shared Responsibility Model mean in the context of ServiceNow cloud security?",opts:["ServiceNow and the customer split all security responsibilities 50/50", "ServiceNow is responsible for securing the cloud platform infrastructure; the customer is responsible for configuring and securing their instance (data, access controls, integrations, customizations)", "The customer is fully responsible for all security, including the underlying cloud hardware", "ServiceNow handles all instance security automatically with no customer action required"],ans:[1],multi:false,real:false,exp:"ServiceNow secures platform; customer secures instance"},
+{id:87,d:6,q:"Which record types are automatically captured by the current Update Set?",opts:["Business rules", "User password records", "Incident task data", "UI policies"],ans:[0, 3],multi:true,real:true,exp:"Update Sets capture config (BR, UI policies) — NOT data"},
+{id:88,d:6,q:"Which capabilities are associated with compare tools for conflict resolution?",opts:["Rollback update set", "Show update history", "Identify duplicate or competing records", "Preview local and remote sets", "Scan Update Set"],ans:[2, 3],multi:true,real:true,exp:"Compare tools = identify conflicts + preview diffs"},
+{id:89,d:6,q:"What is an Update Set?",opts:["Containers for configuration changes that track changes to tables", "A data archival utility for CMDB records", "A mechanism for cloning entire instances", "A runtime engine for Workflow Studio executions"],ans:[0],multi:false,real:true,exp:"Update Set = container for configuration changes"},
+{id:90,d:6,q:"Which tasks does a user perform when inspecting and reporting on Update Sets?",opts:["Export Update Sets to CSV", "Compare content with the target instance to spot conflicts", "Review the Update Set Logs table", "Browse included updates and drill into individual records"],ans:[1, 3],multi:true,real:true,exp:"Inspect = compare with target + browse individual records"},
+{id:91,d:6,q:"What does Instance Scan evaluate?",opts:["License consumption tiers", "User login frequency", "SLA breach counts", "Risk patterns", "Best practice violations"],ans:[3, 4],multi:true,real:true,exp:"Instance Scan = risk patterns + best practice violations"},
+{id:92,d:6,q:"Which components does an Update Set contain?",opts:["Status and metadata for retrieval, preview, and commit", "MID Server connection details", "Plugin activation history", "The configuration deltas", "User session audit logs"],ans:[0, 3],multi:true,real:true,exp:"Update Set = metadata + configuration deltas"},
+{id:93,d:6,q:"What is the purpose of merging Update Sets in ServiceNow?",opts:["Convert XML to JSON before import", "Create a parent with scoped children for a release", "Combine records from several sets into a single set", "Link Update Sets across instances for real-time sync"],ans:[2],multi:false,real:true,exp:"Merge = combine multiple sets into one"},
+{id:94,d:6,q:"What action do administrators perform when inspecting an Update Set?",opts:["View differences against current versions", "Export user roles to CSV", "Run a full instance clone", "Trigger discovery schedules"],ans:[0],multi:false,real:true,exp:"Inspect = view differences against current versions"},
+{id:95,d:6,q:"Which action is explicitly warned against because it can damage the system?",opts:["Exporting an Update Set to XML", "Setting an Update Set to Complete", "Rolling back from the Default Update Set", "Viewing differences against current versions"],ans:[2],multi:false,real:true,exp:"Rolling back the Default Update Set can damage the system"},
+{id:96,d:6,q:"Which format is used to represent Update Sets?",opts:["XML", "CSV", "JSON", "YAML"],ans:[0],multi:false,real:true,exp:"Update Sets are represented as XML"},
+{id:97,d:6,q:"What is the correct order of steps for moving a Completed Update Set between instances?",opts:["Export from A → Import/Retrieve into B → Preview in B → Commit in B", "Export/Retrieve from A → Commit in B → Preview in B → Import into B", "Import into A → Commit in B → Preview in B → Export in B", "Retrieve from A → Commit in B → Preview in B → Import in B"],ans:[0],multi:false,real:true,exp:"Export → Import → Preview → Commit (never skip Preview)"},
+{id:98,d:6,q:"Which activity is an ideal use of Update Sets?",opts:["Migrating incident data between instances", "Storing and applying specific versions of application configurations", "Managing user passwords across instances", "Scheduling discovery scans"],ans:[1],multi:false,real:true,exp:"Update Sets = version and deploy application configurations"},
+{id:99,d:6,q:"Which is listed as a component contained within an Update Set?",opts:["Attachment binaries embedded in records", "User session tokens", "The records changed, stored as update records", "MID Server credentials"],ans:[2],multi:false,real:true,exp:"Update Set contains changed records (update records)"},
+{id:100,d:6,q:"What is the purpose of marking an Update Set as \"Ignore\" in production after committing?",opts:["To remove it from the history of changes", "To automatically roll back its changes", "To prevent reapplication during a future retrieve", "To compress its XML for storage"],ans:[2],multi:false,real:true,exp:"Ignore = prevent re-application during future retrieves"},
+{id:101,d:6,q:"What is the scripting language used in ServiceNow?",opts:["Java", "AngularJS", "JavaScript", "Jelly"],ans:[2],multi:false,real:false,exp:"JavaScript is the scripting language (official blueprint sample Q5)"},
+{id:102,d:6,q:"What is a Business Rule in ServiceNow?",opts:["A server-side script that runs when a record is displayed, inserted, updated, deleted, or when a table is queried", "A client-side script that validates fields before form submission", "A scheduled job that runs on a defined interval", "A configuration record that defines escalation paths"],ans:[0],multi:false,real:false,exp:"Business Rule = server-side script on record events"},
+{id:103,d:6,q:"A Business Rule is configured with \"When = before\" and \"Insert = true\". When exactly does it execute?",opts:["Before the form is displayed to the user", "After the user submits the form and after the record is saved", "After the user submits the form but before the record is saved to the database", "Only when triggered manually by a script"],ans:[2],multi:false,real:false,exp:"Before = after form submit, BEFORE database write"},
+{id:104,d:6,q:"Which of the following are valid \"When\" settings for a Business Rule?",opts:["Before", "Inline", "After", "On Submit"],ans:[0, 2],multi:true,real:false,exp:"Valid: Before, After, Async, Display"},
+{id:105,d:6,q:"What are the predefined global variables available in a Business Rule?",opts:["`current` — represents the current state of the record being acted on", "`g_form` — the client-side form object", "`previous` — the state of the record before the current transaction (update/delete only)", "`window` — the browser window object"],ans:[0, 2],multi:true,real:false,exp:"`current` + `previous` are the two key BR variables"},
+{id:106,d:6,q:"What is a UI Policy in ServiceNow?",opts:["A server-side rule that enforces mandatory fields at the database level", "A no-code browser-side configuration that dynamically controls form field behavior (mandatory, read-only, hidden) based on conditions", "A policy that defines which users can access a specific module", "A visual theme setting applied to the Service Portal"],ans:[1],multi:false,real:false,exp:"UI Policy = no-code, browser-side field control"},
+{id:107,d:6,q:"What is the key difference between a UI Policy and a Data Policy?",opts:["UI Policies apply only in the browser (forms); Data Policies enforce field rules at the database level and apply regardless of access method (forms, imports, APIs)", "UI Policies are server-side; Data Policies are client-side", "UI Policies apply to all tables; Data Policies apply only to custom tables", "UI Policies set field visibility; Data Policies set record-level security"],ans:[0],multi:false,real:false,exp:"UI Policy = browser only; Data Policy = database-level"},
+{id:108,d:6,q:"What is a Script Include in ServiceNow?",opts:["A tag that embeds an external JavaScript file into a form page", "A client-side script that runs on every page load", "A reusable server-side JavaScript library callable from business rules, other scripts, and client scripts via GlideAjax", "A scheduled script that executes daily"],ans:[2],multi:false,real:false,exp:"Script Include = reusable server-side JS library"},
+{id:109,d:1,q:"A ServiceNow administrator searches \"password reset\" using the global search bar in the top banner. Which of the following best describes what is searched?",opts:["Only the currently displayed list in the active module", "Only the Knowledge Base table", "Multiple configured source tables simultaneously — such as Knowledge, Catalog, and Incidents — based on defined search sources", "The Application Navigator filter only"],ans:[2],multi:false,real:false,exp:"Global search = multi-table simultaneous search across configured search sources"},
+{id:110,d:1,q:"A ServiceNow user wants to quickly navigate to a module without using the mouse. Which keyboard shortcut focuses the Application Navigator filter text box?",opts:["Ctrl+F", "Ctrl+N", "The period key (.)", "Alt+Tab"],ans:[2],multi:false,real:false,exp:"Period key (.) focuses the Application Navigator filter input"},
+{id:111,d:1,q:"An admin wants to verify the exact form views and permissions a standard user sees, without logging out of their own admin session. Which ServiceNow feature enables this?",opts:["Create a duplicate user account with the same roles and test manually", "System Logs > User Activity viewer", "Impersonate User — accessible from the profile/avatar menu — temporarily switches the admin's session to act as the selected user", "Simulate Mode in the Security Center"],ans:[2],multi:false,real:false,exp:"Impersonate User = admin tests another user's view without a separate login"},
+{id:112,d:5,q:"An HR team stores Social Security Numbers in a custom field. They need the stored values to be unreadable even with direct database access. Which ServiceNow feature provides this?",opts:["ACL rules set to deny read for all roles", "Setting the field type to String and hiding it with a UI Policy", "ServiceNow Vault field-level encryption, which encrypts the field's stored value at rest", "Data Policy configured as read-only"],ans:[2],multi:false,real:false,exp:"ServiceNow Vault field-level encryption = at-rest protection; encrypted fields can't be filtered or reported on"},
+{id:113,d:5,q:"Which of the following accurately describes ServiceNow's default vs. optional security measures?",opts:["Field-level encryption is on by default; TLS requires purchasing an SSL certificate", "TLS encryption for all data in transit is provided by default; field-level encryption (data at rest) requires explicit configuration via ServiceNow Vault", "Both TLS and field-level encryption are enabled by default for all tables", "Neither is enabled by default; both require separate plugin activations"],ans:[1],multi:false,real:false,exp:"TLS in transit = default; field-level encryption (at rest) = explicit config via Vault"},
+{id:114,d:5,q:"A company's security policy requires all ServiceNow users to complete a second authentication factor at login. How is Multi-Factor Authentication (MFA) enforced?",opts:["Setting password complexity to 16+ characters in System Security", "Configuring MFA via SAML/SSO integration with an external Identity Provider (such as Okta or Azure AD), or via ServiceNow's built-in MFA settings", "Creating an Inbound Action that sends a verification email each session", "Writing a Business Rule that prompts users on every login event"],ans:[1],multi:false,real:false,exp:"MFA via SAML/SSO IdP or built-in MFA settings; not achievable via business rules alone"},
+{id:115,d:5,q:"A compliance officer needs a full audit trail showing who changed the Priority field on any Incident, including before/after values and timestamps. What must be configured?",opts:["Write a Business Rule that logs changes to a custom table on every update", "Enable the Audit attribute (set to true) on the Priority field's dictionary entry for the Incident table — changes are tracked in the sys_audit table", "Activate the CMDB reconciliation plugin", "Configure a Data Policy with read-only enforcement on the Priority field"],ans:[1],multi:false,real:false,exp:"Audit attribute on dictionary entry = field-level change tracking in sys_audit"},
+{id:116,d:5,q:"A security team wants to query all changes made to the Priority field on Incident records in the last 30 days. Which table holds this data?",opts:["sys_log", "sys_history_line", "sys_audit", "syslog_transaction"],ans:[2],multi:false,real:false,exp:"sys_audit = field change history when Audit=true on dictionary entry"},
+{id:117,d:5,q:"Where in ServiceNow are password complexity rules (minimum length, required character types, expiration) configured, and which role can modify them?",opts:["System Properties > UI Settings — any admin can modify", "User Administration > User Preferences — user_admin role required", "System Security > Password Policy — requires the security_admin (elevated) role", "ACL rules on the sys_user table — requires the admin role"],ans:[2],multi:false,real:false,exp:"Password Policy under System Security; requires elevated security_admin role"},
+{id:118,d:5,q:"A developer must store an API key in a ServiceNow field that must never appear in plain text on forms or in list views. Which field type achieves this?",opts:["String (plain text, no masking)", "Password2 — stores the value securely and always displays it as asterisks (****) in the UI", "Reference field pointing to a separate secure credentials table", "HTML field with CSS `display:none` applied in a UI Script"],ans:[1],multi:false,real:false,exp:"Password2 field type = masked display (), value stored securely"},
+{id:119,d:5,q:"A user with the itil role reports they cannot open one specific Incident, even though all other Incidents are accessible. Which tool best helps an admin identify which ACL rule is blocking access?",opts:["Dictionary editor — review field-level attributes", "ACL Debugger (available with the security_admin elevated role), which evaluates all applicable ACL rules for the specific user and record combination", "Import Set transform log", "Virtual Agent conversation analyzer"],ans:[1],multi:false,real:false,exp:"ACL Debugger with security_admin role = evaluates rules per user/record combination"},
+{id:120,d:5,q:"An external application will call the ServiceNow REST API to create Incidents automatically. Which authentication method is recommended over Basic Auth?",opts:["API keys passed as URL query parameters", "Hard-coded credentials embedded in the HTTP request header", "OAuth 2.0 — token-based authentication where credentials are exchanged for a time-limited access token, reducing credential exposure", "IP allowlist only, with no authentication credentials required"],ans:[2],multi:false,real:false,exp:"OAuth 2.0 = token-based, time-limited; preferred over Basic Auth"},
+{id:121,d:5,q:"A user holds the itil role through membership in the \"ITSM Team\" group. When an admin removes the user from the group, when does the loss of the itil role take effect?",opts:["At midnight during the next scheduled synchronization", "Only after the user logs out and back in", "After the MID Server is restarted", "Immediately when the group membership removal is saved"],ans:[3],multi:false,real:false,exp:"Role inherited via group = removed immediately when membership save is committed"},
+{id:122,d:6,q:"Which of the following are the four Client Script execution types in ServiceNow?",opts:["onLoad — fires when the form loads in the browser", "onChange — fires when a watched field value changes", "onSubmit — fires when the user submits the form", "onCellEdit — fires when a cell is edited inline in a list view"],ans:[0, 1, 2, 3],multi:true,real:false,exp:"All four are valid Client Script types: onLoad, onChange, onSubmit, onCellEdit"},
+{id:123,d:6,q:"A developer needs two behaviors: (1) pre-populate the Assignment Group whenever a new Incident form opens, and (2) clear the Assigned To field whenever the Category field changes. Which Client Script types handle each requirement?",opts:["(1) onSubmit; (2) onLoad", "(1) onLoad — fires when the form opens; (2) onChange on the Category field — fires when its value changes", "(1) onChange on the Assignment Group field; (2) onSubmit on the Category field", "Both should use Business Rules with \"When = display\""],ans:[1],multi:false,real:false,exp:"onLoad = form-open pre-population; onChange = reactive field clearing on change"},
+{id:124,d:6,q:"A developer needs to query all active Incidents assigned to the currently logged-in user in a server-side script. Which code pattern is correct?",opts:["`var gr = new GlideRecord('incident'); gr.get('active=true'); gr.query();`", "`var gr = new GlideRecord('incident'); gr.addQuery('active', true); gr.addQuery('assigned_to', gs.getUserID()); gr.query(); while (gr.next()) { /* process */ }`", "`var gr = GlideRecord.select('incident').where('active', true);`", "`var gr = new GlideQuery('incident').where('active', true).toGlideRecord();`"],ans:[1],multi:false,real:false,exp:"GlideRecord: addQuery() × 2, then query(), then while(gr.next()) is the correct pattern"},
+{id:125,d:6,q:"A developer wants to call an external REST API from a Business Rule, storing the endpoint URL and credentials outside the script for reuse and easy management. Which ServiceNow record type is used?",opts:["Transform Map record", "MID Server record", "REST Message record (sys_rest_message) — found under System Web Services > Outbound > REST Message", "Inbound Action record"],ans:[2],multi:false,real:false,exp:"REST Message (sys_rest_message) = reusable outbound REST endpoint + auth profile"},
+{id:126,d:6,q:"In a server-side script using the RESTMessageV2 API, which method sends the outbound HTTP request, and what type does it return?",opts:["`.send()` — returns a raw String of the response body", "`.execute()` — returns a RESTResponseV2 object; call `.getBody()` on it to retrieve the response body string", "`.run()` — returns a Boolean indicating success or failure", "`.dispatch()` — automatically parses the response as a JSON object"],ans:[1],multi:false,real:false,exp:".execute() sends the request; returns RESTResponseV2; .getBody() reads the response"},
+{id:127,d:6,q:"An admin needs a server-side script to run automatically every night at 2:00 AM to archive old records. Which ServiceNow feature handles this, and which table stores these definitions?",opts:["Business Rule with \"When = async\" — stored in sys_script", "Flow Designer scheduled trigger — stored in sys_flow", "Scheduled Script Execution — found under System Definition > Scheduled Jobs, stored in the sys_trigger table", "MID Server probe — stored in ecc_queue"],ans:[2],multi:false,real:false,exp:"Scheduled Script Execution = time-based server-side scripts; stored in sys_trigger"},
+{id:128,d:6,q:"A developer debugging a Business Rule uses both `gs.log()` and `gs.info()`. What is the key difference, and where do both messages appear?",opts:["`gs.log()` sends output to an external syslog server; `gs.info()` writes to the database", "`gs.log()` is client-side only; `gs.info()` is server-side only", "Both write to the system log (viewable at System Logs > System Log > All, stored in the syslog table); `gs.log()` writes at the default log level while `gs.info()` writes at INFO level — affecting log filtering and verbosity settings", "`gs.log()` creates an Incident record; `gs.info()` writes to the Knowledge Base"],ans:[2],multi:false,real:false,exp:"Both write to syslog table; gs.info() = INFO level; gs.log() = default level"},
+{id:129,d:1,q:"A user right-clicks on a record row in a ServiceNow list. What appears?",opts:["A drag-and-drop handle to reorder the record", "The context menu, offering options such as Open, Open in New Tab, Assign Tag, Copy sys_id, and Show Live Feed", "A field-level dictionary popup for the row's primary field", "The Update Set history for that record"],ans:[1],multi:false,real:false,exp:"Right-click on a list row = context menu (Open, Open in New Tab, Assign Tag, Copy sys_id, etc.)"},
+{id:130,d:2,q:"An administrator needs to confirm which ServiceNow release (e.g., Xanadu, Yokohama) and patch level is currently running on their instance. Where should they look?",opts:["System Logs > All", "The Update Set history list", "Navigate to `stats.do` in the browser URL, or go to System > System Diagnostics > Stats — this page shows the current build, release name, and patch level", "Check the Plugin Manager for the currently active plugins"],ans:[2],multi:false,real:false,exp:"stats.do or System > System Diagnostics > Stats = shows release name + build + patch level"},
+{id:131,d:3,q:"Which of the following are valid UI Action types in ServiceNow?",opts:["Form button — a clickable button rendered on a record form's header bar", "List choice — an option in the \"Actions on selected rows\" dropdown in a list view", "Form link — a link that appears in the Related Links section at the bottom of a form", "Data Policy — enforces field attribute rules at the database level"],ans:[0, 1, 2],multi:true,real:false,exp:"Form button, List choice, Form link are UI Action types; Data Policy is a separate feature"},
+{id:132,d:3,q:"A UI Action has its \"Client\" checkbox enabled. What does this mean?",opts:["The script executes on the server before the record is written to the database", "The action is restricted to users with the `client_admin` role", "The script runs in the user's browser as client-side JavaScript and can use `g_form`, `g_user`, and other client-side APIs to manipulate the form without a server round-trip", "The action triggers a MID Server probe on the local network"],ans:[2],multi:false,real:false,exp:"Client checkbox = browser-side JS; can use g_form/g_user APIs without server round-trip"},
+{id:133,d:3,q:"How does a user apply a tag to a record in ServiceNow?",opts:["Edit the sys_dictionary entry for the table and add a tag field", "Right-click the record row in a list (context menu > Assign Tag) or use the tag icon on the form header, then select an existing tag or create a new one", "Add a Business Rule with a `current.addTag()` server-side call", "Modify the record's Update Set entry and add a tag metadata block"],ans:[1],multi:false,real:false,exp:"Set tag via right-click context menu (Assign Tag) or the tag icon on the form header"},
+{id:134,d:3,q:"By default, a tag that a user creates and applies to records in ServiceNow is:",opts:["Public — immediately visible to all users on the instance", "Visible only to users with the `tag_admin` role", "Personal — visible only to the creator; the user can optionally change its visibility to share it with others", "Automatically published to the Service Portal as a knowledge category"],ans:[2],multi:false,real:false,exp:"Tags are personal (creator-only) by default; visibility can be changed to share"},
+{id:135,d:5,q:"A customer asks: \"Are data values stored in ServiceNow fields encrypted at rest by default?\" What is the correct answer?",opts:["Yes — all field values are encrypted at rest by default using AES-256 with no configuration required", "Yes — but only for fields on tables that extend the task table", "No — field-level encryption at rest is not enabled by default; it requires explicit configuration using ServiceNow Vault (Column Level Encryption) on a per-field basis", "No — encryption at rest is not available in ServiceNow at all; only TLS in transit is supported"],ans:[2],multi:false,real:false,exp:"Field-level encryption NOT on by default; requires ServiceNow Vault (CLE) config per field"}
+];
+
+// ─── PERSISTENCE ────────────────────────────────────────────────────────────────
+const LS_STATE = 'csa_quiz_state';
+const LS_BEST = 'csa_quiz_best';
+
+function saveState() {
+  if (!examMode || reviewMode) return;
+  try {
+    localStorage.setItem(LS_STATE, JSON.stringify({
+      mode, selectedDomains,
+      ids: quizQs.map(q => q.id),
+      current, userAnswers, revealed, timeLeft,
+      ts: Date.now()
+    }));
+  } catch (e) {}
+}
+function clearState() { try { localStorage.removeItem(LS_STATE); } catch (e) {} }
+function loadSaved() { try { return JSON.parse(localStorage.getItem(LS_STATE)); } catch (e) { return null; } }
+function getBest() { try { return JSON.parse(localStorage.getItem(LS_BEST)) || { overall: 0, byD: {} }; } catch (e) { return { overall: 0, byD: {} }; } }
+function recordBest(pct, byD) {
+  const best = getBest();
+  if (pct > (best.overall || 0)) best.overall = pct;
+  Object.keys(byD).forEach(d => {
+    const dp = Math.round(byD[d].c / byD[d].t * 100);
+    if (dp > (best.byD[d] || 0)) best.byD[d] = dp;
+  });
+  try { localStorage.setItem(LS_BEST, JSON.stringify(best)); } catch (e) {}
+}
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let mode = 'exam';
+let selectedDomains = [1,2,3,4,5,6];
+let quizQs = [];
+let current = 0;
+let userAnswers = {};
+let revealed = {};
+let examMode = false;
+let timerInterval = null;
+let timeLeft = 90*60;
+let reviewMode = false;
+
+// ─── INIT ──────────────────────────────────────────────────────────────────────
+function init() {
+  buildDomainGrid();
+  updateStartInfo();
+  renderBest();
+  renderResume();
+}
+
+function renderBest() {
+  const best = getBest();
+  const el = document.getElementById('bestLine');
+  if (best && best.overall) {
+    el.innerHTML = `Best exam score: <strong>${best.overall}%</strong>`;
+    el.style.display = 'block';
+  } else {
+    el.style.display = 'none';
+  }
+}
+
+function renderResume() {
+  const s = loadSaved();
+  const banner = document.getElementById('resumeBanner');
+  if (s && s.ids && s.ids.length) {
+    const answered = Object.keys(s.userAnswers || {}).length;
+    const mins = Math.floor((s.timeLeft || 0) / 60);
+    document.getElementById('resumeText').innerHTML =
+      `<strong>Exam in progress</strong> — ${answered}/${s.ids.length} answered, ${mins} min left.`;
+    banner.classList.add('show');
+  } else {
+    banner.classList.remove('show');
+  }
+}
+
+function buildDomainGrid() {
+  const g = document.getElementById('domainGrid');
+  g.innerHTML = '';
+  for (let i=1;i<=6;i++) {
+    const d = DOMAINS[i];
+    const cnt = QS.filter(q=>q.d===i).length;
+    const sel = selectedDomains.includes(i);
+    g.innerHTML += `
+    <div class="domain-card d${i} ${sel?'selected':''}" onclick="toggleDomain(${i})">
+      <div class="domain-card-header">
+        <div class="domain-badge">D${i} · ${d.weight}%</div>
+        <div class="domain-check">${sel?'<svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>':''}</div>
+      </div>
+      <h3>${d.name}</h3>
+      <p>${cnt} questions</p>
+    </div>`;
+  }
+}
+
+function toggleDomain(i) {
+  const idx = selectedDomains.indexOf(i);
+  if (idx>-1) { if(selectedDomains.length>1) selectedDomains.splice(idx,1); }
+  else selectedDomains.push(i);
+  buildDomainGrid();
+  updateStartInfo();
+}
+
+function toggleAll() {
+  if(selectedDomains.length===6) selectedDomains=[];
+  else selectedDomains=[1,2,3,4,5,6];
+  buildDomainGrid();
+  updateStartInfo();
+}
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('examModeCard').classList.toggle('active', m==='exam');
+  document.getElementById('studyModeCard').classList.toggle('active', m==='study');
+  document.getElementById('examOptions').style.display = m==='exam'?'block':'none';
+  document.getElementById('quickActions').style.display = m==='exam'?'block':'none';
+  updateStartInfo();
+}
+
+function updateStartInfo() {
+  if(mode==='study'){
+    document.getElementById('startInfo').innerHTML = '📖 Browse all questions with answers visible on click';
+    document.getElementById('startBtn').textContent = 'Open Study Mode →';
+    document.getElementById('startBtn').disabled = false;
+    return;
+  }
+  const pool = QS.filter(q=>selectedDomains.includes(q.d));
+  const n = Math.min(60, pool.length);
+  document.getElementById('startInfo').innerHTML = `<strong>${n}</strong> questions · 90 min timer · ${selectedDomains.length} domain(s) selected`;
+  document.getElementById('startBtn').textContent = 'Start Quiz →';
+  document.getElementById('startBtn').disabled = selectedDomains.length===0;
+}
+
+// ─── START ─────────────────────────────────────────────────────────────────────
+function startQuiz() {
+  if(mode==='study'){ startStudy(); return; }
+  const pool = QS.filter(q=>selectedDomains.includes(q.d));
+  const n = Math.min(60, pool.length);
+  quizQs = proportionalSample(pool, n);
+  current = 0; userAnswers = {}; revealed = {}; examMode = true; reviewMode = false;
+  showScreen('quizScreen');
+  document.getElementById('homeBtn').style.display='inline-flex';
+  document.getElementById('navScore').style.display='none';
+  buildQGrid();
+  renderQ();
+  startTimer();
+  saveState();
+}
+
+function startWeakDrill() {
+  const best = getBest();
+  let domains;
+  if (best && best.byD && Object.keys(best.byD).length >= 2) {
+    // two lowest-scoring domains by best score
+    domains = [1,2,3,4,5,6].sort((a,b)=>(best.byD[a]??0)-(best.byD[b]??0)).slice(0,2);
+  } else {
+    domains = [5,6]; // default: biggest + integration
+  }
+  selectedDomains = domains.sort((a,b)=>a-b);
+  mode = 'exam';
+  setMode('exam');
+  buildDomainGrid();
+  startQuiz();
+}
+
+function proportionalSample(pool, n) {
+  const byD = {};
+  pool.forEach(q => { (byD[q.d]=byD[q.d]||[]).push(q); });
+  const total = pool.length;
+  const result = [];
+  Object.keys(byD).forEach(d => {
+    const arr = shuffle([...byD[d]]);
+    const take = Math.round((arr.length/total)*n);
+    result.push(...arr.slice(0, take));
+  });
+  const leftover = shuffle(pool.filter(q=>!result.includes(q)));
+  while(result.length < n && leftover.length) result.push(leftover.shift());
+  return shuffle(result).slice(0,n);
+}
+
+function shuffle(arr) {
+  for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
+  return arr;
+}
+
+// ─── RESUME ──────────────────────────────────────────────────────────────────
+function resumeQuiz() {
+  const s = loadSaved();
+  if (!s || !s.ids) return;
+  quizQs = s.ids.map(id => QS.find(q => q.id === id)).filter(Boolean);
+  if (!quizQs.length) { discardSaved(); return; }
+  mode = s.mode || 'exam';
+  selectedDomains = s.selectedDomains || [1,2,3,4,5,6];
+  current = Math.min(s.current || 0, quizQs.length - 1);
+  userAnswers = s.userAnswers || {};
+  revealed = s.revealed || {};
+  timeLeft = s.timeLeft != null ? s.timeLeft : 90*60;
+  examMode = true; reviewMode = false;
+  showScreen('quizScreen');
+  document.getElementById('homeBtn').style.display='inline-flex';
+  buildQGrid();
+  renderQ();
+  resumeTimer();
+}
+
+function discardSaved() {
+  clearState();
+  renderResume();
+}
+
+// ─── TIMER ────────────────────────────────────────────────────────────────────
+function startTimer() {
+  timeLeft = 90*60;
+  resumeTimer();
+}
+function resumeTimer() {
+  document.getElementById('timerWrap').style.display='block';
+  updateTimerDisplay();
+  if(timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(()=>{
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft % 5 === 0) saveState();
+    if(timeLeft<=0){ clearInterval(timerInterval); finishQuiz(); }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timeLeft/60).toString().padStart(2,'0');
+  const s = (timeLeft%60).toString().padStart(2,'0');
+  const el = document.getElementById('timerDisplay');
+  el.textContent = `${m}:${s}`;
+  el.className = 'time' + (timeLeft<300?' danger': timeLeft<600?' warning':'');
+}
+
+// ─── RENDER Q ─────────────────────────────────────────────────────────────────
+function renderQ() {
+  const q = quizQs[current];
+  const d = DOMAINS[q.d];
+  document.getElementById('qCounter').textContent = `Q${current+1} of ${quizQs.length}`;
+  const tag = document.getElementById('qDomainTag');
+  tag.textContent = `D${q.d} · ${d.name}`;
+  tag.style.background = 'var(--surface2)';
+  tag.style.color = d.color;
+  tag.style.border = '1px solid var(--border)';
+  document.getElementById('qStar').style.display = q.real ? 'inline':'none';
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('qInstruction').textContent = q.multi ? '[ Choose ' + q.ans.length + ' answers ]' : '[ Choose 1 answer ]';
+
+  const opts = document.getElementById('optionsContainer');
+  opts.innerHTML = '';
+  const ans = userAnswers[q.id];
+  const isRevealed = revealed[q.id] || reviewMode;
+  const labels = ['A','B','C','D','E'];
+
+  q.opts.forEach((o,i) => {
+    let cls = 'option';
+    if(isRevealed) {
+      const isCorrect = q.ans.includes(i);
+      const isSelected = ans && ans.includes(i);
+      if(isCorrect && isSelected) cls += ' correct disabled';
+      else if(!isCorrect && isSelected) cls += ' incorrect disabled';
+      else if(isCorrect && !isSelected) cls += ' missed disabled';
+      else cls += ' disabled';
+    } else {
+      if(ans && ans.includes(i)) cls += ' selected';
+    }
+    const div = document.createElement('div');
+    div.className = cls;
+    div.onclick = () => selectOpt(i);
+    div.innerHTML = `<div class="opt-key">${labels[i]}</div><div class="opt-text"></div>`;
+    div.querySelector('.opt-text').textContent = o;
+    opts.appendChild(div);
+  });
+
+  const exp = document.getElementById('explanation');
+  exp.className = 'explanation';
+  if(isRevealed) {
+    const ua = (ans||[]).slice().sort().join(',');
+    const ca = [...q.ans].sort().join(',');
+    exp.classList.add('show', ua===ca ? 'ok' : 'bad');
+    exp.innerHTML = `<strong>${ua===ca ? 'Correct' : 'Explanation'}:</strong> `;
+    exp.appendChild(document.createTextNode(q.exp));
+  }
+
+  document.getElementById('prevBtn').disabled = current===0;
+  document.getElementById('nextBtn').style.display = current < quizQs.length-1 ? 'inline-flex' : 'none';
+  document.getElementById('submitBtn').style.display = (reviewMode || isRevealed) ? 'none' : 'inline-flex';
+  document.getElementById('revealBtn').style.display = (reviewMode || isRevealed) ? 'none' : 'inline-flex';
+  document.getElementById('submitBtn').disabled = !userAnswers[q.id];
+
+  const done = Object.keys(userAnswers).length;
+  document.getElementById('progressFill').style.width = (done/quizQs.length*100)+'%';
+  document.getElementById('navScore').textContent = `${done}/${quizQs.length} answered`;
+  if(done>0) document.getElementById('navScore').style.display='inline';
+  updateQGrid();
+}
+
+function selectOpt(i) {
+  const q = quizQs[current];
+  if(revealed[q.id] || reviewMode) return;
+  let ans = userAnswers[q.id] ? [...userAnswers[q.id]] : [];
+  if(q.multi) {
+    const idx = ans.indexOf(i);
+    if(idx>-1) ans.splice(idx,1);
+    else if(ans.length < q.ans.length) ans.push(i);
+  } else {
+    ans = [i];
+  }
+  userAnswers[q.id] = ans;
+  renderQ();
+  saveState();
+}
+
+function submitAnswer() {
+  const q = quizQs[current];
+  if(!userAnswers[q.id] || userAnswers[q.id].length===0) return;
+  revealed[q.id] = true;
+  renderQ();
+  saveState();
+  const ua = userAnswers[q.id].slice().sort().join(',');
+  const ca = [...q.ans].sort().join(',');
+  if(ua===ca && current < quizQs.length-1) {
+    setTimeout(()=>navQ(1), 800);
+  }
+}
+
+function revealAnswer() {
+  const q = quizQs[current];
+  if(!userAnswers[q.id]) userAnswers[q.id] = [];
+  revealed[q.id] = true;
+  renderQ();
+  saveState();
+}
+
+function navQ(dir) {
+  current = Math.max(0, Math.min(quizQs.length-1, current+dir));
+  renderQ();
+  saveState();
+}
+
+function buildQGrid() {
+  const g = document.getElementById('qGrid');
+  g.innerHTML = '';
+  quizQs.forEach((q,i) => {
+    g.innerHTML += `<div class="q-dot" id="dot-${i}" onclick="jumpQ(${i})">${i+1}</div>`;
+  });
+}
+
+function updateQGrid() {
+  quizQs.forEach((q,i) => {
+    const d = document.getElementById(`dot-${i}`);
+    if(!d) return;
+    d.className = 'q-dot';
+    if(i===current) d.classList.add('current');
+    else if(reviewMode && userAnswers[q.id] !== undefined) {
+      const ua = (userAnswers[q.id]||[]).slice().sort().join(',');
+      const ca = [...q.ans].sort().join(',');
+      d.classList.add(ua===ca ? 'correct' : 'incorrect');
+    } else if(userAnswers[q.id]) d.classList.add('answered');
+  });
+}
+
+function jumpQ(i) { current=i; renderQ(); saveState(); }
+
+// ─── FINISH ───────────────────────────────────────────────────────────────────
+function finishQuiz() {
+  if(timerInterval) { clearInterval(timerInterval); timerInterval=null; }
+  clearState();
+  showScreen('resultsScreen');
+  document.getElementById('navScore').style.display='none';
+
+  let correct=0;
+  const byD = {};
+  quizQs.forEach(q => {
+    const ua = (userAnswers[q.id]||[]).slice().sort().join(',');
+    const ca = [...q.ans].sort().join(',');
+    const ok = ua===ca;
+    if(ok) correct++;
+    if(!byD[q.d]) byD[q.d]={c:0,t:0};
+    byD[q.d].t++;
+    if(ok) byD[q.d].c++;
+  });
+
+  const pct = Math.round(correct/quizQs.length*100);
+  const ring = document.getElementById('scoreRing');
+  document.getElementById('scorePct').textContent = pct+'%';
+  ring.className = 'score-ring' + (pct>=70?'':' fail');
+  document.getElementById('resultsHeadline').textContent = pct>=70 ? '🎉 Great work!' : '📚 Keep studying';
+  document.getElementById('resultsSubtitle').textContent = `${correct} / ${quizQs.length} correct across ${Object.keys(byD).length} domains`;
+
+  recordBest(pct, byD);
+
+  const dr = document.getElementById('domainResults');
+  dr.innerHTML = '';
+  Object.keys(byD).sort().forEach(d=>{
+    const {c,t} = byD[d];
+    const dp = Math.round(c/t*100);
+    const color = DOMAINS[+d].color;
+    dr.innerHTML += `
+    <div class="domain-result-row">
+      <div class="dr-label" style="color:${color}">D${d} · ${DOMAINS[+d].name}</div>
+      <div class="dr-bar-wrap"><div class="dr-bar" style="width:${dp}%;background:${color}"></div></div>
+      <div class="dr-pct" style="color:${color}">${dp}%</div>
+    </div>`;
+  });
+}
+
+function reviewAnswers() {
+  reviewMode = true;
+  showScreen('quizScreen');
+  current=0;
+  document.getElementById('timerWrap').style.display='none';
+  document.getElementById('homeBtn').style.display='inline-flex';
+  buildQGrid();
+  renderQ();
+}
+
+// ─── STUDY ────────────────────────────────────────────────────────────────────
+let studyFilter = 0;
+function startStudy() {
+  showScreen('studyScreen');
+  document.getElementById('homeBtn').style.display='inline-flex';
+  renderStudy();
+}
+
+function filterStudy(d) {
+  studyFilter = d;
+  document.querySelectorAll('.domain-pill').forEach(p => p.classList.toggle('active', +p.dataset.d===d));
+  renderStudy();
+}
+
+function renderStudy() {
+  const list = document.getElementById('studyList');
+  const filtered = studyFilter===0 ? QS : QS.filter(q=>q.d===studyFilter);
+  const labels = ['A','B','C','D','E'];
+  list.innerHTML = filtered.map(q => {
+    const d = DOMAINS[q.d];
+    return `
+    <div class="study-card d${q.d}" id="sc-${q.id}">
+      <div class="study-card-header" onclick="toggleStudyCard(${q.id})">
+        <div class="study-qnum">Q${q.id}</div>
+        <div style="flex:1">
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:6px">
+            <span class="tag" style="background:var(--surface2);color:${d.color};border:1px solid var(--border)">D${q.d}</span>
+            ${q.multi?'<span class="tag tag-multi">Multi-select</span>':''}
+            ${q.real?'<span class="tag tag-real">⭐ Real Exam</span>':''}
+          </div>
+          <div class="study-qtext"></div>
+        </div>
+        <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="study-body" id="sb-${q.id}">
+        ${q.opts.map((o,i)=>`
+        <div class="study-option ${q.ans.includes(i)?'correct-opt':''}">
+          <span style="font-family:var(--mono);font-weight:700;min-width:18px">${labels[i]}.</span>
+          <span class="so-text"></span>
+          ${q.ans.includes(i)?'<span style="margin-left:auto">✓</span>':''}
+        </div>`).join('')}
+        <div class="study-explanation"><strong>Answer:</strong> ${q.ans.map(i=>labels[i]).join(', ')} — <span class="se-text"></span></div>
+      </div>
+    </div>`;
+  }).join('');
+  // set text content safely (avoid HTML injection from question text)
+  filtered.forEach(q => {
+    const card = document.getElementById(`sc-${q.id}`);
+    if (!card) return;
+    card.querySelector('.study-qtext').textContent = q.q;
+    const sos = card.querySelectorAll('.so-text');
+    q.opts.forEach((o,i)=>{ if(sos[i]) sos[i].textContent = o; });
+    card.querySelector('.se-text').textContent = q.exp;
+  });
+}
+
+function toggleStudyCard(id) {
+  const card = document.getElementById(`sc-${id}`);
+  const body = document.getElementById(`sb-${id}`);
+  card.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+// ─── KEYBOARD NAV ─────────────────────────────────────────────────────────────
+document.addEventListener('keydown', (e) => {
+  if (!document.getElementById('quizScreen').classList.contains('active')) return;
+  const t = e.target;
+  if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+  const q = quizQs[current];
+  if (!q) return;
+  if (e.key === 'ArrowLeft') { e.preventDefault(); navQ(-1); }
+  else if (e.key === 'ArrowRight') { e.preventDefault(); navQ(1); }
+  else if (e.key === 'Enter') {
+    if (!reviewMode && !revealed[q.id]) { e.preventDefault(); submitAnswer(); }
+  }
+  else if (/^[1-5]$/.test(e.key)) {
+    const idx = parseInt(e.key, 10) - 1;
+    if (idx < q.opts.length) { e.preventDefault(); selectOpt(idx); }
+  }
+});
+
+// ─── UTILS ────────────────────────────────────────────────────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goHome() {
+  if(timerInterval){clearInterval(timerInterval);timerInterval=null;}
+  clearState();
+  showScreen('homeScreen');
+  document.getElementById('homeBtn').style.display='none';
+  document.getElementById('navScore').style.display='none';
+  reviewMode=false; examMode=false;
+  mode='exam';
+  selectedDomains=[1,2,3,4,5,6];
+  setMode('exam');
+  buildDomainGrid();
+  updateStartInfo();
+  renderBest();
+  renderResume();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+init();
+</script>
+</body>
+</html>
