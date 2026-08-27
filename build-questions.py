@@ -99,9 +99,18 @@ while i < n:
         continue
     i += 1
 
+EMPH = re.compile(r"\*([A-Za-z][^*\n]*?)\*")
+
+
 def plain(s):
-    """Bank is markdown; the app renders with textContent. Strip inline markup."""
-    return s.replace('**', '').replace('`', '').strip()
+    """Bank is markdown; the app renders with textContent. Strip inline markup.
+
+    Emphasis only - *word* - never a bare asterisk, so ACL wildcards such as
+    *.number, incident.* and *.* survive intact.
+    """
+    s = s.replace('**', '').replace('`', '')
+    s = re.sub(EMPH, r"\1", s)
+    return s.strip()
 
 # ---- Merge + build final objects ----
 LET2IDX = {c: k for k, c in enumerate('ABCDE')}
