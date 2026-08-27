@@ -244,6 +244,9 @@
   .ai-chip[aria-pressed="true"] { border-color: var(--accent-border); background: var(--accent-soft); color: var(--primary); }
   .ai-chip:disabled { opacity: .45; cursor: not-allowed; }
   .ask-row { display: flex; align-items: center; gap: 10px; margin: -12px 0 24px; flex-wrap: wrap; }
+  /* inside a study card the row follows the explanation in normal flow,
+     so the quiz screen's negative top margin would pull it over the panel */
+  .study-card .ask-row { margin: 12px 0 0; }
   .ask-row .hint { font-size: 12px; color: var(--muted); }
   .kbdline { font-family: var(--mono); font-size: 12px; background: var(--surface2);
              border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; }
