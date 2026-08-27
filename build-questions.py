@@ -162,3 +162,58 @@ js = "const QS = [\n" + ",\n".join(parts) + "\n];\n"
 with open(HERE / "_questions.js", "w", encoding="utf-8") as f:
     f.write(js)
 print("Wrote _questions.js", file=sys.stderr)
+
+# ---- Trap sheet ----
+TRAPS_SRC = HERE.parent / "CSA-questions" / "CSA-Trap-Sheet.md"
+
+
+def inline(s):
+    """The markdown subset the trap sheet actually uses."""
+    s = s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    s = re.sub(r"`([^`]+)`", r"<code>\1</code>", s)
+    s = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", s)
+    # bold is consumed first, so any asterisk left is emphasis
+    s = re.sub(r"\*([^*]+)\*", r"<em>\1</em>", s)
+    return s.strip()
+
+
+def parse_traps(text):
+    entries = []
+    section = ""
+    in_table = False
+    for raw in text.splitlines():
+        ln = raw.rstrip()
+        if ln.startswith("## "):
+            section = ln[3:].strip()
+            in_table = False
+            continue
+        if ln.startswith("# ") or ln.startswith(">") or ln.startswith("---"):
+            continue
+        if ln.startswith("|"):
+            cells = [c.strip() for c in ln.strip("|").split("|")]
+            if all(set(c) <= set("-: ") for c in cells):
+                in_table = True          # separator row
+                continue
+            if not in_table:
+                continue                 # header row
+            if len(cells) >= 2:
+                entries.append({"s": section,
+                                "k": inline(cells[0]),
+                                "v": inline(" \u2014 ".join(cells[1:]))})
+            continue
+        in_table = False
+        if ln.startswith("- "):
+            entries.append({"s": section, "k": "", "v": inline(ln[2:])})
+        elif ln.startswith("**") and ln.endswith("**"):
+            entries.append({"s": section, "k": "", "v": inline(ln)})
+        elif ln.strip():
+            entries.append({"s": section, "k": "", "v": inline(ln)})
+    return entries
+
+
+traps = parse_traps(TRAPS_SRC.read_text(encoding="utf-8"))
+print(f"Parsed {len(traps)} trap-sheet entries", file=sys.stderr)
+with open(HERE / "_traps.js", "w", encoding="utf-8") as f:
+    f.write("const TRAPS = " + json.dumps(traps, ensure_ascii=False) + ";\n")
+print("Wrote _traps.js", file=sys.stderr)
+
