@@ -292,7 +292,7 @@
   <div class="home">
     <div class="home-hero">
       <h1>ServiceNow <span>CSA</span> Practice Quiz</h1>
-      <p>135 questions aligned to the official exam blueprint (KB0011554, Jan 2026). 60 questions on the real exam.</p>
+      <p><span id="cntHero">179</span> questions aligned to the official exam blueprint (KB0011554, Jan 2026). 60 questions on the real exam.</p>
       <div class="best-line" id="bestLine" style="display:none"></div>
     </div>
 
@@ -311,7 +311,7 @@
       </div>
       <div class="mode-card" id="studyModeCard" onclick="setMode('study')">
         <h3><span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.5c2-1 5-1 7 0v13c-2-1-5-1-7 0v-13z"/><path d="M21 5.5c-2-1-5-1-7 0v13c2-1 5-1 7 0v-13z"/></svg></span> Study Mode</h3>
-        <p>Browse all 135 questions by domain. Click any card to reveal the answer and explanation.</p>
+        <p>Browse all <span id="cntStudy">179</span> questions by domain. Click any card to reveal the answer and explanation.</p>
       </div>
     </div>
 
@@ -372,7 +372,7 @@
 <!-- STUDY SCREEN -->
 <div class="screen" id="studyScreen">
   <div class="study-controls">
-    <button class="domain-pill active" data-d="0" onclick="filterStudy(0)">All (135)</button>
+    <button class="domain-pill active" data-d="0" onclick="filterStudy(0)">All (<span id="cntAll">179</span>)</button>
     <button class="domain-pill" data-d="1" onclick="filterStudy(1)">D1 · Navigation</button>
     <button class="domain-pill" data-d="2" onclick="filterStudy(2)">D2 · Config</button>
     <button class="domain-pill" data-d="3" onclick="filterStudy(3)">D3 · Collab</button>
@@ -1314,6 +1314,12 @@ function closeSettings(){ document.getElementById('settingsScrim').classList.add
   document.getElementById('settingsScrim').addEventListener('click', e => {
     if (e.target.id === 'settingsScrim') closeSettings();
   });
+
+// The bank grows; the markup should not have to be edited when it does.
+['cntHero','cntStudy','cntAll'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.textContent = QS.length;
+});
 
 init();
 </script>
