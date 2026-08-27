@@ -17,21 +17,21 @@ lines = text.splitlines()
 # ---- Pass 1: parse answers from the domain answer tables ----
 # rows look like: | Q87 ⭐ | A & D | key point |  OR  | Q1 | D | key point |
 answers = {}   # qid -> (letters_list, explanation, is_real_from_answer)
-ans_row = re.compile(r'^\|\s*Q(\d+)\s*(⭐)?\s*\|\s*([^|]+?)\s*\|\s*(.+?)\s*\|\s*$')
+ans_row = re.compile(r'^\|\s*Q(\d+)\s*\|\s*([^|]+?)\s*\|\s*([a-z+]+)\s*\|\s*(.+?)\s*\|\s*$')
 for ln in lines:
     m = ans_row.match(ln)
     if not m:
         continue
     qid = int(m.group(1))
-    real = bool(m.group(2))
-    letters_raw = m.group(3).strip()
+    letters_raw = m.group(2).strip()
+    src = m.group(3).strip()
     exp = m.group(4).strip()
     # parse letters: "A & D", "A, B & C", "A, B, C & D", "C", "D & E"
     letters = re.findall(r'\b([A-E])\b', letters_raw)
     if not letters:
         continue
     exp = exp.replace('**', '').strip()
-    answers[qid] = (letters, exp, real)
+    answers[qid] = (letters, exp, src)
 
 # ---- Pass 2: parse questions ----
 domain_hdr = re.compile(r'^##\s+Domain\s+(\d+)\s')
@@ -112,7 +112,7 @@ for q in sorted(questions, key=lambda x: x['qid']):
     if qid not in answers:
         errors.append(f"Q{qid}: no answer row found")
         continue
-    letters, exp, real_ans = answers[qid]
+    letters, exp, src = answers[qid]
     ans_idx = sorted(LET2IDX[c] for c in letters)
     nopts = len(q['opts'])
     if nopts < 2:
@@ -127,6 +127,7 @@ for q in sorted(questions, key=lambda x: x['qid']):
         'opts': [plain(o) for o in q['opts']],
         'ans': ans_idx,
         'multi': len(ans_idx) > 1,
+        'src': src,
         'exp': plain(exp),
     }
     out.append(obj)
@@ -138,6 +139,9 @@ dc = Counter(o['d'] for o in out)
 for d in range(1, 7):
     print(f"  D{d}: {dc.get(d,0)}", file=sys.stderr)
 print(f"  multi: {sum(1 for o in out if o['multi'])}", file=sys.stderr)
+sc = Counter(o['src'] for o in out)
+for k in sorted(sc):
+    print(f"  src {k}: {sc[k]}", file=sys.stderr)
 if errors:
     print("ERRORS:", file=sys.stderr)
     for e in errors:
@@ -149,12 +153,13 @@ else:
 parts = []
 for o in out:
     parts.append(
-        "{id:%d,d:%d,q:%s,opts:%s,ans:%s,multi:%s,exp:%s}" % (
+        "{id:%d,d:%d,q:%s,opts:%s,ans:%s,multi:%s,src:%s,exp:%s}" % (
             o['id'], o['d'],
             json.dumps(o['q'], ensure_ascii=False),
             json.dumps(o['opts'], ensure_ascii=False),
             json.dumps(o['ans']),
             'true' if o['multi'] else 'false',
+            json.dumps(o['src'], ensure_ascii=False),
             json.dumps(o['exp'], ensure_ascii=False),
         )
     )
